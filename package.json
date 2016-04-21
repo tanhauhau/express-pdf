@@ -1,0 +1,22 @@
+{
+  "name": "express-pdf",
+  "version": "0.0.0",
+  "description": "Express serving pdf file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tan Li Hau",
+  "license": "MIT",
+  "keywords": [
+    "express",
+    "pdf",
+    "html-pdf"
+  ],
+  "dependencies": {
+    "es6-promise": "^3.1.2",
+    "express": "^4.13.4",
+    "html-pdf": "^2.0.1",
+    "var-clean": "^1.0.1"
+  }
+}
