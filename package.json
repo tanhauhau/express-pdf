@@ -1,6 +1,6 @@
 {
   "name": "express-pdf",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Express serving pdf file",
   "main": "index.js",
   "scripts": {
