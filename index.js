@@ -28,21 +28,20 @@ function sendHTMLPDF(res, filename, content, options, reject, resolve){
 var _pdf = function(filename){
     var _this = this;
     return new Promise(function(resolve, reject){
-        try{
-            fs.statSync(filename);
-        }catch(e){
-            reject(filename + ' does not exists');
-            return;
-        }
-        setHeader(_this, path.basename(filename));
-        var stream = fs.createReadStream(filename);
-        stream.pipe(_this);
-        stream.on('end', function(){
-            _this.end();
-            resolve();
-        });
-        stream.on('error', function(error){
-            reject(error);
+        fs.stat(filename, function(err, stat){
+            if(err){
+                return reject(filename + ' does not exists');
+            }
+            setHeader(_this, path.basename(filename));
+            var stream = fs.createReadStream(filename);
+            stream.pipe(_this);
+            stream.on('end', function(){
+                _this.end();
+                resolve();
+            });
+            stream.on('error', function(error){
+                reject(error);
+            });
         });
     });
 };
@@ -57,7 +56,9 @@ var _pdfFromHTML = function(opt) {
         opt.options = opt.options || {};
 
         if(opt.html !== undefined){
-            sendHTMLPDF(_this, opt.filename, fs.readFileSync(opt.html, 'utf-8'), opt.options, reject, resolve);
+            fs.readFile(opt.html, 'utf-8', function(err, data){
+                sendHTMLPDF(_this, opt.filename, data, opt.options, reject, resolve);
+            });
         }else if(opt.htmlContent !== undefined){
             sendHTMLPDF(_this, opt.filename, opt.htmlContent, opt.options, reject, resolve);
         }else{
