@@ -38,7 +38,7 @@ describe("Works perfectly", function(){
 
     it('should return a promise', function(done){
         var app = express(), server;
-        app.use(pdf());
+        app.use(pdf);
         app.get('/test/3', function(req, res){
             var promise = res.pdf(path.resolve(__dirname, './fixture/test.pdf'));
 
@@ -56,7 +56,7 @@ describe("Works perfectly", function(){
 
     it('should return a promise', function(done){
         var app = express(), server;
-        app.use(pdf());
+        app.use(pdf);
         app.get('/test/4', function(req, res){
             var promise = res.pdfFromHTML({
                 filename: 'file.pdf',
