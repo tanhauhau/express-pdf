@@ -5,7 +5,7 @@ var express = require('express'),
         pdf = require('html-pdf'),
     Promise = require('es6-promise').Promise;
 
-function PDF(req, res, next){
+(function PDF(res){
     function setHeader(res, filename){
         res.header('Content-Type', 'application/pdf');
         res.header('Content-Disposition', 'inline; filename="' + filename + '"');
@@ -64,6 +64,6 @@ function PDF(req, res, next){
             }
         });
     };
-    next();
-};
-exports = module.exports = function(){ return PDF };
+})(express.response);
+
+exports = module.exports = function(){ return function(req, res, next){ next(); } };

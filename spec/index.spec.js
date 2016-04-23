@@ -1,7 +1,7 @@
 var express = require('express'),
        path = require('path'),
        http = require('http'),
-    Promise = require('es6-promise').Promise,
+    Promise = require('es6-promise').Promise;
         pdf = require('../index.js');
 
 describe("Works perfectly", function(){

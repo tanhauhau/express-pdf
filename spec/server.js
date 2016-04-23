@@ -1,9 +1,8 @@
 var express = require('express');
-var pdf = require('../index.js');
+require('../index.js');
 var path = require('path');
 
 app = express();
-app.use(pdf());
 
 app.get('/test/1', function(req, res){
     res.pdf(path.resolve(__dirname, './fixture/test.pdf'));

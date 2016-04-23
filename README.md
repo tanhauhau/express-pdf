@@ -17,8 +17,8 @@ var express = require('express'),
         app = express(),
         pdf = require('express-pdf');
 
-//include pdf
-app.use(pdf());
+// express-pdf < v1.1.0 used this, but now it is not required.
+// app.use(pdf());
 
 app.use('/pdfFromHTML', function(req, res){
     res.pdfFromHTML({
