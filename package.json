@@ -4,7 +4,7 @@
   "description": "Express serving pdf file",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec/"
   },
   "author": "Tan Li Hau",
   "license": "MIT",
@@ -18,5 +18,19 @@
     "express": "^4.13.4",
     "html-pdf": "^2.0.1",
     "var-clean": "^1.0.1"
-  }
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "peerDependencies": {
+    "express": "^4.13.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanhauhau/express-pdf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tanhauhau/express-pdf/issues"
+  },
+  "homepage": "https://github.com/tanhauhau/express-pdf#readme"
 }
