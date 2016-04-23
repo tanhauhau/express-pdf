@@ -5,23 +5,33 @@ var express = require('express'),
         pdf = require('html-pdf'),
     Promise = require('es6-promise').Promise;
 
+function notFound(res){
+    res.sendStatus(404);
+    res.end();
+}
+function internalError(res){
+    res.sendStatus(500);
+    res.end();
+}
 function setHeader(res, filename){
     res.header('Content-Type', 'application/pdf');
     res.header('Content-Disposition', 'inline; filename="' + filename + '"');
     res.header('Content-Transfer-Encoding', 'binary');
 }
-function sendHTMLPDF(res, filename, content, options, reject, resolve){
-    setHeader(res, filename);
-    pdf.create(content, options).toStream(function(err, stream){
-        if(err){
-            reject(err);
-        }else{
-            stream.pipe(res);
-            stream.on('end', function(){
-                res.end();
-                resolve();
-            })
-        }
+function sendHTMLPDF(res, filename, content, options){
+    return new Promise(function(resolve, reject){
+        setHeader(res, filename);
+        pdf.create(content, options).toStream(function(err, stream){
+            if(err){
+                reject(err);
+            }else{
+                stream.pipe(res);
+                stream.on('end', function(){
+                    res.end();
+                    resolve();
+                })
+            }
+        });
     });
 }
 
@@ -30,6 +40,7 @@ var _pdf = function(filename){
     return new Promise(function(resolve, reject){
         fs.stat(filename, function(err, stat){
             if(err){
+                notFound(_this);
                 return reject(filename + ' does not exists');
             }
             setHeader(_this, path.basename(filename));
@@ -57,11 +68,18 @@ var _pdfFromHTML = function(opt) {
 
         if(opt.html !== undefined){
             fs.readFile(opt.html, 'utf-8', function(err, data){
-                sendHTMLPDF(_this, opt.filename, data, opt.options, reject, resolve);
+                if(err){
+                    notFound(_this);
+                    return reject(opt.html + ' does not exists');
+                }
+                sendHTMLPDF(_this, opt.filename, data, opt.options)
+                .then(resolve, reject);
             });
         }else if(opt.htmlContent !== undefined){
-            sendHTMLPDF(_this, opt.filename, opt.htmlContent, opt.options, reject, resolve);
+            sendHTMLPDF(_this, opt.filename, opt.htmlContent, opt.options)
+            .then(resolve, reject);
         }else{
+            internalError(_this);
             reject('html and htmlContent not set');
         }
     });
